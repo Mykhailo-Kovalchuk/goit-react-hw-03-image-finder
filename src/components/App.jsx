@@ -63,6 +63,12 @@ this.setState({searchWord: formData});
 this.setState({ pageCount: 1 })
   };
 
+  onClick = (event) => {
+    this.setState({ pageCount: 2 }) ///////////////////////// Не закінчено
+    this.fetchByUser(this.state.searchWord);
+
+  }
+
   render() {
     return (
       <div
@@ -84,7 +90,7 @@ this.setState({ pageCount: 1 })
         {this.state.status === STATUSES.pending && <h2>Upsss, something went wrong...</h2>}
         <ImageGallery picturesQuery={this.state.pictures} />
         
-        <Button />
+        <Button onClick={this.onClick}/>
         <Modal />
       </div>
     );

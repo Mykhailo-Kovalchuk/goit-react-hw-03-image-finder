@@ -12,13 +12,14 @@ const handleInputChange = (event) => {
   return (
       <header className={css.Searchbar}>
   <form className="form" onSubmit={handleInputChange}>
-    <button type="submit" className="button">
-      <span className="button-label">Search</span>
+   
+    <button type="submit" className={css.button}>
+      <span className={css.buttonLabel}>Search</span>
     </button>
 
     <input
     name='searchInput'
-      className="input"
+      className={css.input}
       type="text"
       autoComplete="off"
       autoFocus
