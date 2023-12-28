@@ -23,6 +23,7 @@ const handleInputChange = (event) => {
       autoComplete="off"
       autoFocus
       placeholder="Search images and photos"
+      required
     />
   </form>
 </header>

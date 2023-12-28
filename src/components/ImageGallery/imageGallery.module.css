@@ -9,4 +9,8 @@
     list-style: none;
     margin-left: auto;
     margin-right: auto;
+
+    justify-items: center;
+    align-items: center;
+    max-width: 100%;
   }

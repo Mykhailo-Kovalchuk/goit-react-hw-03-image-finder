@@ -4,7 +4,7 @@ import css from './button.module.css'
 
 const Button = () => {
   return (
-    <div className={css.Button}>Button</div>
+    <div className={css.Button}>Load more</div>
   )
 }
 
