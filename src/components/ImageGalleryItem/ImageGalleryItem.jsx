@@ -1,27 +1,28 @@
 // import React from 'react'
-import css from './imageGalleryItem.module.css'
+import css from './imageGalleryItem.module.css';
 
-const ImageGalleryItem = ({picturesQuery}) => {
-const galleryPhotos = picturesQuery?.map(picture => {
-  // console.log(picture)
+const ImageGalleryItem = ({ picturesQuery }) => {
+  const galleryPhotos = picturesQuery?.map(picture => {
+    // console.log(picture)
 
-  return  ( <li key={picture.id} className={css.ImageGalleryItem}>
-  <img src={picture.webformatURL} alt={picture.tags} className={css.ImageGalleryItemImage} />
-</li>)
-  
+    return (
+      <li key={picture.id} className={css.ImageGalleryItem}>
+        <img
+          src={picture.webformatURL}
+          alt={picture.tags}
+          className={css.ImageGalleryItemImage}
+        />
+      </li>
+    );
+  });
 
-});
+  return (
+    <>
+      {/* // < className={css.ImageGalleryItem}> */}
 
-return (
-  
-<>
-  {/* // < className={css.ImageGalleryItem}> */}
+      {galleryPhotos}
+    </>
+  );
+};
 
-  {galleryPhotos}
-  </>
-)
-
-
-}
-
-export  {ImageGalleryItem};
+export { ImageGalleryItem };
