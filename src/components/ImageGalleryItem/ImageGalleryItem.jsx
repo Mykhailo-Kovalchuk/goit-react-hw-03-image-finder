@@ -1,7 +1,7 @@
 // import React from 'react'
 import css from './imageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ picturesQuery }) => {
+const ImageGalleryItem = ({ picturesQuery, handleShowImageId }) => {
   const galleryPhotos = picturesQuery?.map(picture => {
     // console.log(picture)
 
@@ -11,16 +11,13 @@ const ImageGalleryItem = ({ picturesQuery }) => {
           src={picture.webformatURL}
           alt={picture.tags}
           className={css.ImageGalleryItemImage}
+          onClick={() => handleShowImageId(picture.id, picture.largeImageURL)}
         />
       </li>
     );
   });
 
-  return (
-    <>
-         {galleryPhotos}
-    </>
-  );
+  return <>{galleryPhotos}</>;
 };
 
 export { ImageGalleryItem };

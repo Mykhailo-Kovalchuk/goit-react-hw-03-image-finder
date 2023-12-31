@@ -14,11 +14,12 @@ export class App extends Component {
   state = {
     pictures: null,
     error: null,
-    // loader: 'pending',
     pageCount: 1,
     status: STATUSES.idle,
     searchWord: '',
     emptyResponse: false,
+    modalIsOpen: false,
+    modalData: null,
   };
 
   componentDidMount() {}
@@ -75,6 +76,18 @@ export class App extends Component {
     }
   };
 
+  handleShowImageId = imageId => {
+    const selected = this.state.pictures.find(
+      picture => picture.id === imageId
+    );
+    this.setState({ modalIsOpen: true, modalData: selected });
+    return selected;
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
   render() {
     return (
       <div
@@ -93,17 +106,22 @@ export class App extends Component {
       >
         <Searchbar onSubmit={this.onSubmit} />
 
-        <ImageGallery picturesQuery={this.state.pictures} />
+        <ImageGallery
+          picturesQuery={this.state.pictures}
+          handleShowImageId={this.handleShowImageId}
+        />
 
         {this.state.status === STATUSES.pending && <Loader />}
-        {this.state.status === STATUSES.error && (
-          <h2>Upsss, something went wrong...</h2>
-        )}
 
         {this.state.pictures !== null && this.state.emptyResponse === false && (
           <Button loadMore={this.loadMore} />
         )}
-        <Modal />
+        {this.state.modalIsOpen === true && (
+          <Modal
+            modalData={this.state.modalData}
+            handleCloseModal={this.handleCloseModal}
+          />
+        )}
       </div>
     );
   }
