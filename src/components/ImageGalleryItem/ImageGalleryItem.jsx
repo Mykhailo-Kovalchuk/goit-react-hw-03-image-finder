@@ -18,9 +18,7 @@ const ImageGalleryItem = ({ picturesQuery }) => {
 
   return (
     <>
-      {/* // < className={css.ImageGalleryItem}> */}
-
-      {galleryPhotos}
+         {galleryPhotos}
     </>
   );
 };

@@ -21,21 +21,7 @@ export class App extends Component {
     emptyResponse: false,
   };
 
-  //  fetchPictures = async () => {
-  //   try {
-  //     this.setState({status: STATUSES.pending})
-  //     const pictures = await fetchInfo(this.state.searchWord, this.state.pageCount);
-  //     this.setState({ pictures, status: STATUSES.success });
-
-  //   } catch (error) {
-  //     this.setState({error: error.message, status: STATUSES.error})
-  //     console.log("errorio")
-  //   }
-  // };
-
-  componentDidMount() {
-    // this.fetchPictures();
-  }
+  componentDidMount() {}
 
   fetchByUser = async searchWordByUser => {
     try {
@@ -106,11 +92,13 @@ export class App extends Component {
         }}
       >
         <Searchbar onSubmit={this.onSubmit} />
+
+        <ImageGallery picturesQuery={this.state.pictures} />
+
         {this.state.status === STATUSES.pending && <Loader />}
         {this.state.status === STATUSES.error && (
           <h2>Upsss, something went wrong...</h2>
         )}
-        <ImageGallery picturesQuery={this.state.pictures} />
 
         {this.state.pictures !== null && this.state.emptyResponse === false && (
           <Button loadMore={this.loadMore} />
