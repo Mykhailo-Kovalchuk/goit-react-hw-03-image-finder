@@ -6,7 +6,7 @@ const Searchbar = ({ onSubmit }) => {
     event.preventDefault();
     const inputValue = event.currentTarget.elements.searchInput.value;
     // console.log(inputValue)
-    onSubmit(inputValue);
+    onSubmit(inputValue.toLowerCase());
   };
 
   return (

@@ -3,8 +3,6 @@ import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Button } from './Button/Button.jsx';
 import { Modal } from './Modal/Modal.jsx';
-// import axios from 'axios';
-// import Notiflix from 'notiflix';
 
 import { STATUSES } from '../services-functions/statuses.js';
 import { fetchInfo } from 'services-functions/api.js';
@@ -24,16 +22,24 @@ export class App extends Component {
 
   componentDidMount() {}
 
-  fetchByUser = async searchWordByUser => {
+  fetchByUser = async () => {
     try {
       this.setState({ status: STATUSES.pending });
-      const pictures = await fetchInfo(searchWordByUser, this.state.pageCount); //requestPostByQuery
+      const pictures = await fetchInfo(
+        this.state.searchWord,
+        this.state.pageCount
+      ); //requestPostByQuery
       // console.log(pictures)
 
-      this.setState({ pictures, status: STATUSES.success });
+      this.setState(prevState => ({
+        pictures: [...prevState.pictures, ...pictures],
+        status: STATUSES.success,
+      }));
 
       if (pictures.length < 12) {
         this.setState({ emptyResponse: true });
+      } else {
+        this.setState({ emptyResponse: false });
       }
     } catch (error) {
       this.setState({ error: error.message, status: STATUSES.error });
@@ -42,8 +48,11 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchWord !== this.state.searchWord) {
-      this.fetchByUser(this.state.searchWord);
+    if (
+      prevState.searchWord !== this.state.searchWord ||
+      prevState.pageCount !== this.state.pageCount
+    ) {
+      this.fetchByUser();
       //  this.loadMore(prevState.pageCount);
     }
   }
@@ -51,29 +60,39 @@ export class App extends Component {
   onSubmit = formData => {
     // this.setState({searchWord: formData});
     // this.setState({ pageCount: 1 })
-    this.setState({ searchWord: formData, pageCount: 1 });
+    if (this.state.searchWord === formData) {
+      return alert(`You are viewing  ${formData} right now.`);
+    }
+
+    this.setState({
+      searchWord: formData.toLowerCase(),
+      pictures: [],
+      pageCount: 1,
+    });
   };
 
-  loadMore = async () => {
-    try {
-      const nextPage = this.state.pageCount + 1;
-      this.setState({ status: STATUSES.pending });
-      const picturesLoadMore = await fetchInfo(this.state.searchWord, nextPage); //requestPostByQuery
-      // console.log(picturesLoadMore.length)
+  loadMore = () => {
+    this.setState(prevState => ({ pageCount: prevState.pageCount + 1 }));
 
-      if (picturesLoadMore.length < 12) {
-        this.setState({ emptyResponse: true });
-      }
+    // try {
+    //   const nextPage = this.state.pageCount + 1;
+    //   this.setState({ status: STATUSES.pending });
+    //   const picturesLoadMore = await fetchInfo(this.state.searchWord, nextPage); //requestPostByQuery
+    //   // console.log(picturesLoadMore.length)
 
-      this.setState(prevState => ({
-        pictures: [...prevState.pictures, ...picturesLoadMore],
-      }));
+    //   if (picturesLoadMore.length < 12) {
+    //     this.setState({ emptyResponse: true });
+    //   }
 
-      this.setState({ pageCount: nextPage, status: STATUSES.success });
-    } catch (error) {
-      this.setState({ error: error.message, status: STATUSES.error });
-      console.log('errorio');
-    }
+    //   this.setState(prevState => ({
+    //     pictures: [...prevState.pictures, ...picturesLoadMore],
+    //   }));
+
+    //   this.setState({ pageCount: nextPage, status: STATUSES.success });
+    // } catch (error) {
+    //   this.setState({ error: error.message, status: STATUSES.error });
+    //   console.log('errorio');
+    // }
   };
 
   handleShowImageId = imageId => {
